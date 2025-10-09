@@ -1,0 +1,300 @@
+{
+  "env": "hr_experts",
+  "model_provider": "fireworks",
+  "model": "qwen3-coder-480b-a35b-instruct",
+  "num_trials": 3,
+  "temperature": 1,
+  "interface_num": 1,
+  "task": {
+    "user_id": "2",
+    "instruction": "You are Tiffany Sandoval, an HR Director with the email tsandoval@hotmail.com. You want to create a new department named “AI Research”, with Allison Johnston (allison.johnston@hotmail.com) as the manager and a budget of $5 million & submit the department charter document for policy.",
+    "actions": [
+      {
+        "name": "discover_user_employee_entities",
+        "arguments": {
+          "entity_type": "users",
+          "filters": {
+            "email": "tsandoval@hotmail.com"
+          }
+        },
+        "output": {
+          "count": 1,
+          "entity_type": "users",
+          "results": [
+            {
+              "created_at": "2023-10-29T07:08:15",
+              "email": "tsandoval@hotmail.com",
+              "first_name": "Tiffany",
+              "last_name": "Sandoval",
+              "mfa_enabled": true,
+              "phone_number": "+16465221064",
+              "role": "hr_director",
+              "status": "active",
+              "updated_at": "2025-04-19T05:39:06",
+              "user_id": "2"
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "name": "check_approval",
+        "arguments": {
+          "action": "create_department",
+          "requester_email": "tsandoval@hotmail.com"
+        },
+        "output": {
+          "approval_valid": true,
+          "message": "Role 'hr_director' is directly authorized for action 'create_department'"
+        }
+      },
+      {
+        "name": "discover_user_employee_entities",
+        "arguments": {
+          "entity_type": "users",
+          "filters": {
+            "email": "allison.johnston@hotmail.com"
+          }
+        },
+        "output": {
+          "count": 1,
+          "entity_type": "users",
+          "results": [
+            {
+              "created_at": "2024-11-28T20:03:05",
+              "email": "allison.johnston@hotmail.com",
+              "first_name": "Allison",
+              "last_name": "Johnston",
+              "mfa_enabled": true,
+              "phone_number": "+12562036847",
+              "role": "employee",
+              "status": "active",
+              "updated_at": "2025-07-26T20:28:55",
+              "user_id": "145"
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "name": "discover_user_employee_entities",
+        "arguments": {
+          "entity_type": "employees",
+          "filters": {
+            "user_id": "145"
+          }
+        },
+        "output": {
+          "count": 1,
+          "entity_type": "employees",
+          "results": [
+            {
+              "address": "8865 Melinda Knoll, Davisstad, PW 92994",
+              "created_at": "2025-08-28T02:31:55",
+              "date_of_birth": "2007-01-23",
+              "employee_id": "99",
+              "employment_status": "active",
+              "hire_date": "2025-01-23",
+              "hourly_rate": 59,
+              "manager_id": null,
+              "position_id": "176",
+              "updated_at": "2025-08-28T02:31:55",
+              "user_id": "145"
+            }
+          ],
+          "success": true
+        }
+      },
+      {
+        "name": "manage_department",
+        "arguments": {
+          "action": "create",
+          "budget": 5000000.0,
+          "department_name": "AI Research",
+          "manager_id": "99"
+        },
+        "output": {
+          "department_data": {
+            "budget": 5000000,
+            "created_at": "2025-10-01T12:00:00",
+            "department_id": "101",
+            "department_name": "AI Research",
+            "manager_id": "99",
+            "status": "active",
+            "updated_at": "2025-10-01T12:00:00"
+          },
+          "department_id": "101",
+          "message": "Department created successfully with ID 101",
+          "success": true
+        }
+      },
+      {
+        "name": "manage_document_storage",
+        "arguments": {
+          "confidentiality_level": "confidential",
+          "document_name": "AI Research Department Charter",
+          "document_type": "policy",
+          "file_path": "/documents/departments/101/AI_research_department_charter.pdf",
+          "operation": "create",
+          "uploaded_by": "2"
+        },
+        "output": {
+          "confidentiality_level": "confidential",
+          "created_at": "2025-10-01T12:00:00",
+          "document_id": "366",
+          "document_name": "AI Research Department Charter",
+          "document_type": "policy",
+          "employee_id": null,
+          "expiry_date": null,
+          "file_path": "/documents/departments/101/AI_research_department_charter.pdf",
+          "retention_period_years": 7,
+          "status": "active",
+          "upload_date": "2025-10-01T12:00:00",
+          "uploaded_by": "2"
+        }
+      },
+      {
+        "name": "manage_audit_logs",
+        "arguments": {
+          "action": "create",
+          "operation": "create",
+          "reference_id": "101",
+          "reference_type": "departments",
+          "user_id": "2"
+        },
+        "output": {
+          "action": "create",
+          "field_name": null,
+          "log_id": "2885",
+          "new_value": null,
+          "old_value": null,
+          "reference_id": "101",
+          "reference_type": "departments",
+          "timestamp": "2025-10-01T12:00:00",
+          "user_id": "2"
+        }
+      },
+      {
+        "name": "manage_audit_logs",
+        "arguments": {
+          "action": "create",
+          "operation": "create",
+          "reference_id": "366",
+          "reference_type": "document_storage",
+          "user_id": "2"
+        },
+        "output": {
+          "action": "create",
+          "field_name": null,
+          "log_id": "2886",
+          "new_value": null,
+          "old_value": null,
+          "reference_id": "366",
+          "reference_type": "document_storage",
+          "timestamp": "2025-10-01T12:00:00",
+          "user_id": "2"
+        }
+      }
+    ],
+    "outputs": [],
+    "edges": [
+    {
+      "from": "instruction",
+      "to": "discover_user_employee_entities",
+      "connection": {
+        "output": "entity_type, email",
+        "input": "entity_type, filters.email"
+      }
+    },
+    {
+      "from": "instruction",
+      "to": "check_approval",
+      "connection": {
+        "output": "action",
+        "input": "action"
+      }
+    },
+    {
+      "from": "discover_user_employee_entities",
+      "to": "check_approval",
+      "connection": {
+        "output": "results[0].email",
+        "input": "requester_email"
+      }
+    },
+    {
+      "from": "discover_user_employee_entities",
+      "to": "discover_user_employee_entities",
+      "connection": {
+        "output": "results[0].user_id",
+        "input": "filters.user_id"
+      }
+    },
+    {
+      "from": "instruction",
+      "to": "manage_department",
+      "connection": {
+        "output": "action, budget, department_name",
+        "input": "action, budget, department_name"
+      }
+    },
+    {
+      "from": "discover_user_employee_entities",
+      "to": "manage_department",
+      "connection": {
+        "output": "results[0].employee_id",
+        "input": "manager_id"
+      }
+    },
+    {
+      "from": "instruction",
+      "to": "manage_document_storage",
+      "connection": {
+        "output": "operation, confidentiality_level, document_name, document_type, file_path",
+        "input": "operation, confidentiality_level, document_name, document_type, file_path"
+      }
+    },
+    {
+      "from": "discover_user_employee_entities",
+      "to": "manage_document_storage",
+      "connection": {
+        "output": "results[0].user_id",
+        "input": "uploaded_by"
+      }
+    },
+    {
+      "from": "instruction",
+      "to": "manage_audit_logs",
+      "connection": {
+        "output": "operation, action, reference_type",
+        "input": "operation, action, reference_type"
+      }
+    },
+    {
+      "from": "manage_department",
+      "to": "manage_audit_logs",
+      "connection": {
+        "output": "department_id",
+        "input": "reference_id"
+      }
+    },
+    {
+      "from": "discover_user_employee_entities",
+      "to": "manage_audit_logs",
+      "connection": {
+        "output": "results[0].user_id",
+        "input": "user_id"
+      }
+    },
+    {
+      "from": "manage_document_storage",
+      "to": "manage_audit_logs",
+      "connection": {
+        "output": "document_id",
+        "input": "reference_id"
+      }
+    }
+  ],
+  "num_edges": 12
+  }
+}
