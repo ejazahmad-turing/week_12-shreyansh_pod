@@ -1,0 +1,247 @@
+{
+  "env": "hr_management",
+  "model_provider": "fireworks",
+  "model": "qwen3-coder-480b-a35b-instruct",
+  "num_trials": 3,
+  "temperature": 1,
+  "interface_num": 2,
+  "task": {
+    "user_id": "6",
+    "instruction": "You are Tina Hale, an HR Manager with the email tina86@yahoo.com. You want to create a new department named “AI Research”, with Allison Johnston (allison.johnston@hotmail.com) as the manager and a budget of $5 million, using the HR Director’s approval code DEPT0001 & submit the department charter document.",
+    "actions": [
+      {
+        "name": "fetch_users",
+        "arguments": {
+          "email": "tina86@yahoo.com"
+        },
+        "output": [
+          {
+            "created_at": "2024-08-21T15:10:45",
+            "email": "tina86@yahoo.com",
+            "first_name": "Tina",
+            "last_name": "Hale",
+            "mfa_enabled": true,
+            "phone_number": "+19386024033",
+            "role": "hr_manager",
+            "status": "active",
+            "updated_at": "2024-10-19T22:44:53",
+            "user_id": "6"
+          }
+        ]
+      },
+      {
+        "name": "approval_lookup",
+        "arguments": {
+          "approval_code": "DEPT0001"
+        },
+        "output": {
+          "approval_valid": true,
+          "approved_by": "1"
+        }
+      },
+      {
+        "name": "fetch_users",
+        "arguments": {
+          "email": "allison.johnston@hotmail.com"
+        },
+        "output": [
+          {
+            "created_at": "2024-11-28T20:03:05",
+            "email": "allison.johnston@hotmail.com",
+            "first_name": "Allison",
+            "last_name": "Johnston",
+            "mfa_enabled": true,
+            "phone_number": "+12562036847",
+            "role": "employee",
+            "status": "active",
+            "updated_at": "2025-07-26T20:28:55",
+            "user_id": "145"
+          }
+        ]
+      },
+      {
+        "name": "fetch_employees",
+        "arguments": {
+          "user_id": "145"
+        },
+        "output": [
+          {
+            "address": "8865 Melinda Knoll, Davisstad, PW 92994",
+            "created_at": "2025-08-28T02:31:55",
+            "date_of_birth": "2007-01-23",
+            "employee_id": "99",
+            "employment_status": "active",
+            "hire_date": "2025-01-23",
+            "hourly_rate": 59,
+            "manager_id": null,
+            "position_id": "176",
+            "updated_at": "2025-08-28T02:31:55",
+            "user_id": "145"
+          }
+        ]
+      },
+      {
+        "name": "create_department",
+        "arguments": {
+          "budget": 5000000.0,
+          "department_name": "AI Research",
+          "hr_director_approval": true,
+          "manager_id": "99"
+        },
+        "output": {
+          "department_id": "101",
+          "success": true
+        }
+      },
+      {
+        "name": "submit_document",
+        "arguments": {
+          "confidentiality_level": "confidential",
+          "document_name": "AI Research Department Charter",
+          "document_type": "policy",
+          "employee_id": "99",
+          "file_path": "/documents/departments/ai_research_charter.pdf",
+          "uploaded_by": "6"
+        },
+        "output": {
+          "document_id": "366",
+          "success": true
+        }
+      },
+      {
+        "name": "log_audit_entry",
+        "arguments": {
+          "action": "create",
+          "reference_id": "101",
+          "reference_type": "departments",
+          "user_id": "6"
+        },
+        "output": {
+          "log_id": "2887",
+          "success": true
+        }
+      },
+      {
+        "name": "log_audit_entry",
+        "arguments": {
+          "action": "create",
+          "reference_id": "366",
+          "reference_type": "document_storage",
+          "user_id": "6"
+        },
+        "output": {
+          "log_id": "2888",
+          "success": true
+        }
+      }
+    ],
+    "outputs": ["99", "101", "366"],
+    "edges": [
+      {
+        "from": "instruction",
+        "to": "fetch_users",
+        "connection": {
+          "output": "email",
+          "input": "email"
+        }
+      },
+      {
+        "from": "instruction",
+        "to": "approval_lookup",
+        "connection": {
+          "output": "approval_code",
+          "input": "approval_code"
+        }
+      },
+      {
+        "from": "fetch_users",
+        "to": "fetch_employees",
+        "connection": {
+          "output": "output[0].user_id",
+          "input": "user_id"
+        }
+      },
+      {
+        "from": "fetch_employees",
+        "to": "create_department",
+        "connection": {
+          "output": "output[0].employee_id",
+          "input": "manager_id"
+        }
+      },
+      {
+        "from": "approval_lookup",
+        "to": "create_department",
+        "connection": {
+          "output": "approval_valid",
+          "input": "hr_director_approval"
+        }
+      },
+      {
+        "from": "instruction",
+        "to": "create_department",
+        "connection": {
+          "output": "budget, department_name",
+          "input": "budget, department_name"
+        }
+      },
+      {
+        "from": "fetch_employees",
+        "to": "submit_document",
+        "connection": {
+          "output": "output[0].employee_id",
+          "input": "employee_id"
+        }
+      },
+      {
+        "from": "fetch_users",
+        "to": "submit_document",
+        "connection": {
+          "output": "output[0].user_id",
+          "input": "uploaded_by"
+        }
+      },
+      {
+        "from": "instruction",
+        "to": "submit_document",
+        "connection": {
+          "output": "confidentiality_level, document_name, document_type, file_path",
+          "input": "confidentiality_level, document_name, document_type, file_path"
+        }
+      },
+      {
+        "from": "create_department",
+        "to": "log_audit_entry",
+        "connection": {
+          "output": "department_id",
+          "input": "reference_id"
+        }
+      },
+      {
+        "from": "fetch_users",
+        "to": "log_audit_entry",
+        "connection": {
+          "output": "output[0].user_id",
+          "input": "user_id"
+        }
+      },
+      {
+        "from": "instruction",
+        "to": "log_audit_entry",
+        "connection": {
+          "output": "action, reference_type",
+          "input": "action, reference_type"
+        }
+      },
+      {
+        "from": "submit_document",
+        "to": "log_audit_entry",
+        "connection": {
+          "output": "document_id",
+          "input": "reference_id"
+        }
+      }
+    ],
+    "num_edges": 13
+  }
+}
