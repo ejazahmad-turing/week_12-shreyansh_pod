@@ -7,7 +7,7 @@
   "interface_num": 1,
   "task": {
     "user_id": "6",
-    "instruction": "You are Tina Hale, an HR Manager with the email tina86@yahoo.com. You want to finalize the annual performance review for George Tucker (george94@outlook.com) for the period January-December 2025.",
+    "instruction": "You are Tina Hale, an HR Manager with the email tina86@yahoo.com. You want to finalize the annual performance review for Randy Williams (williams441@outlook.com) for the period January-December 2025.",
     "actions": [
       {
         "name": "check_approval",
