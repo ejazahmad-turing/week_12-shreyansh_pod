@@ -210,16 +210,8 @@
       "from": "instruction",
       "to": "check_approval",
       "connection": {
-        "output": "action",
-        "input": "action"
-      }
-    },
-    {
-      "from": "discover_user_employee_entities",
-      "to": "check_approval",
-      "connection": {
-        "output": "results[0].email",
-        "input": "requester_email"
+        "output": "results[0].email, action",
+        "input": "requester_email, action"
       }
     },
     {
@@ -295,6 +287,6 @@
       }
     }
   ],
-  "num_edges": 12
+  "num_edges": 11
   }
 }
