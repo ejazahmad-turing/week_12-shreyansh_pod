@@ -18,7 +18,7 @@
         "output": {
           "approval_valid": true,
           "approved_by": ["compliance_officer", "hr_manager"],
-          "message": "All required approvals received from: hr_manager, compliance_officer"
+          "message": "All required approvals received from: compliance_officer, hr_manager"
         }
       },
       {
@@ -131,6 +131,27 @@
         }
       },
       {
+        "name": "manage_audit_logs",
+        "arguments": {
+          "action": "create",
+          "operation": "create",
+          "reference_id": "147",
+          "reference_type": "users",
+          "user_id": "6"
+        },
+        "output": {
+          "action": "create",
+          "field_name": null,
+          "log_id": "2885",
+          "new_value": null,
+          "old_value": null,
+          "reference_id": "147",
+          "reference_type": "users",
+          "timestamp": "2025-10-01T12:00:00",
+          "user_id": "6"
+        }
+      },
+      {
         "name": "manage_employee",
         "arguments": {
           "action": "create",
@@ -164,17 +185,17 @@
           "action": "create",
           "operation": "create",
           "reference_id": "101",
-          "reference_type": "employee",
+          "reference_type": "employees",
           "user_id": "6"
         },
         "output": {
           "action": "create",
           "field_name": null,
-          "log_id": "2885",
+          "log_id": "2886",
           "new_value": null,
           "old_value": null,
           "reference_id": "101",
-          "reference_type": "employee",
+          "reference_type": "employees",
           "timestamp": "2025-10-01T12:00:00",
           "user_id": "6"
         }
@@ -232,6 +253,30 @@
       },
       {
         "from": "instruction",
+        "to": "manage_audit_logs",
+        "connection": {
+          "output": "action, operation, reference_type",
+          "input": "action, operation, reference_type"
+        }
+      },
+      {
+        "from": "manage_user",
+        "to": "manage_audit_logs",
+        "connection": {
+          "output": "user_id",
+          "input": "reference_id"
+        }
+      },
+      {
+        "from": "discover_user_employee_entities",
+        "to": "manage_audit_logs",
+        "connection": {
+          "output": "results[0].user_id",
+          "input": "user_id"
+        }
+      },
+      {
+        "from": "instruction",
         "to": "manage_employee",
         "connection": {
           "output": "action, employment_status, hire_date",
@@ -255,30 +300,14 @@
         }
       },
       {
-        "from": "instruction",
-        "to": "manage_audit_logs",
-        "connection": {
-          "output": "action, operation, reference_type",
-          "input": "action, operation, reference_type"
-        }
-      },
-      {
         "from": "manage_employee",
         "to": "manage_audit_logs",
         "connection": {
           "output": "employee_id",
           "input": "reference_id"
         }
-      },
-      {
-        "from": "discover_user_employee_entities",
-        "to": "manage_audit_logs",
-        "connection": {
-          "output": "results[0].user_id",
-          "input": "user_id"
-        }
       }
     ],
-    "num_edges": 12
+    "num_edges": 13
   }
 }
